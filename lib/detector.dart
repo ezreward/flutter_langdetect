@@ -47,17 +47,17 @@ class Detector {
       RegExp(r'[-_.0-9A-Za-z]{1,64}@[-_0-9A-Za-z]{1,255}[-_.0-9A-Za-z]{1,255}');
 
   final DetectorFactory factory;
-  late Map<String, List<double>> wordLangProbMap;
-  late List<String> langList;
+  Map<String, List<double>> wordLangProbMap;
+  List<String> langList;
   int seed;
-  late Random random;
+  Random random;
   String text = '';
-  List<double>? langProb;
+  List<double> langProb;
 
   double alpha = alphaDefault;
   int nTrial = 7;
   int maxTextLength = 10000;
-  List<double>? priorMap;
+  List<double> priorMap;
   bool verbose = false;
 
   /// Construct [Detector] instance.
@@ -80,15 +80,15 @@ class Detector {
   void setPriorMap(Map<String, double> priorMap) {
     this.priorMap = List<double>.filled(langList.length, 0.0);
     double sump = 0.0;
-    for (int i = 0; i < this.priorMap!.length; i++) {
+    for (int i = 0; i < this.priorMap.length; i++) {
       String lang = langList[i];
       if (priorMap.containsKey(lang)) {
-        double p = priorMap[lang]!;
+        double p = priorMap[lang];
         if (p < 0) {
           throw LangDetectException(ErrorCode.initParamError,
               'Prior probability must be non-negative.');
         }
-        this.priorMap![i] = p;
+        this.priorMap[i] = p;
         sump += p;
       }
     }
@@ -96,8 +96,8 @@ class Detector {
       throw LangDetectException(ErrorCode.initParamError,
           'More one of prior probability must be non-zero.');
     }
-    for (int i = 0; i < this.priorMap!.length; i++) {
-      this.priorMap![i] /= sump;
+    for (int i = 0; i < this.priorMap.length; i++) {
+      this.priorMap[i] /= sump;
     }
   }
 
@@ -167,7 +167,7 @@ class Detector {
     if (langProb == null) {
       _detectBlock();
     }
-    return _sortProbability(langProb!);
+    return _sortProbability(langProb);
   }
 
   void _detectBlock() {
@@ -195,8 +195,8 @@ class Detector {
         }
         i++;
       }
-      for (int j = 0; j < langProb!.length; j++) {
-        langProb![j] += prob[j] / nTrial;
+      for (int j = 0; j < langProb.length; j++) {
+        langProb[j] += prob[j] / nTrial;
       }
     }
   }
@@ -211,7 +211,7 @@ class Detector {
 
   List<double> _initProbability() {
     if (priorMap != null) {
-      return List.from(priorMap!);
+      return List.from(priorMap);
     } else {
       return List<double>.filled(langList.length, 1.0 / langList.length);
     }
@@ -226,7 +226,7 @@ class Detector {
         continue;
       }
       for (int n = 1; n <= NGram.nGram; n++) {
-        String? w = ngram.get(n);
+        String w = ngram.get(n);
         if (w != null &&
             w != "" &&
             w != ' ' &&
@@ -243,7 +243,7 @@ class Detector {
       return;
     }
 
-    List<double> langProbMap = wordLangProbMap[word]!;
+    List<double> langProbMap = wordLangProbMap[word];
     if (verbose) {
       logger.d('$word($word): ${_wordProbToString(langProbMap)}');
     }

@@ -7,7 +7,7 @@ void main() async {
   // Then, call `initLangDetect` once.
   await langdetect.initLangDetect();
 
-  String text = 'Hello, world!';
+  String text = 'Bonjour Ami. Comment tu vas ?';
   final language = langdetect.detect(text);
   print('Detected language: $language'); // -> "en"
 

@@ -461,7 +461,7 @@ const _unicodeBlocks = [
 
 final int numBlocks = _unicodeBlocks.length;
 
-UnicodeBlock? unicodeBlock(String ch) {
+UnicodeBlock unicodeBlock(String ch) {
   int cp = ch.codeUnitAt(0);
 
   if (cp <= 0x7F) {

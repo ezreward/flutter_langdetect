@@ -10,11 +10,11 @@ class LangProfile {
   static final RegExp romanCharRe = RegExp(r'^[A-Za-z]$');
   static final RegExp romanSubstrRe = RegExp(r'.*[A-Za-z].*');
 
-  String? name;
+  String name;
   Map<String, int> freq = {};
   List<int> nWords;
 
-  LangProfile({this.name, Map<String, int>? freq, List<int>? nWords})
+  LangProfile({this.name, Map<String, int> freq, List<int> nWords})
       : freq = Map<String, int>.from(freq ?? {}),
         nWords = nWords ?? List<int>.filled(NGram.nGram, 0) {
     if (freq != null) {
@@ -22,7 +22,7 @@ class LangProfile {
     }
   }
 
-  void add(String? gram) {
+  void add(String gram) {
     if (name == null || gram == null) return;
     int length = gram.length;
     if (length < 1 || length > NGram.nGram) return;
@@ -37,7 +37,7 @@ class LangProfile {
     int roman = 0;
     final keys = freq.keys.toList();
     for (final key in keys) {
-      final count = freq[key]!;
+      final count = freq[key];
       if (count <= threshold) {
         nWords[key.length - 1] -= count;
         freq.remove(key);
@@ -49,7 +49,7 @@ class LangProfile {
     if (roman < nWords[0] ~/ 3) {
       final keys = freq.keys.toList();
       for (final key in keys) {
-        final count = freq[key]!;
+        final count = freq[key];
         if (romanSubstrRe.hasMatch(key)) {
           nWords[key.length - 1] -= count;
           freq.remove(key);
@@ -58,7 +58,7 @@ class LangProfile {
     }
   }
 
-  void update(String? text) {
+  void update(String text) {
     if (text == null) return;
     text = NGram.normalizeVi(text);
     NGram gram = NGram();

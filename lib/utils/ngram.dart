@@ -46,7 +46,7 @@ class NGram {
     }
   }
 
-  String? get(int n) {
+  String get(int n) {
     if (capitalword) {
       return null;
     }
@@ -133,8 +133,8 @@ class NGram {
 
   static String normalizeVi(String text) {
     String repl(Match m) {
-      int alphabet = toNormalizeViChars.indexOf(m.group(1)!);
-      int dmark = dmarkClass.indexOf(m.group(2)!); // Diacritical Mark
+      int alphabet = toNormalizeViChars.indexOf(m.group(1));
+      int dmark = dmarkClass.indexOf(m.group(2)); // Diacritical Mark
       return normalizedViChars[dmark][alphabet];
     }
 

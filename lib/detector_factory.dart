@@ -50,7 +50,7 @@ class DetectorFactory {
     return detector.getProbabilities();
   }
 
-  int? seed;
+  int seed;
 
   Map<String, List<double>> wordLangProbMap = {};
   List<String> langList = [];
@@ -95,7 +95,7 @@ class DetectorFactory {
   }
 
   void addProfile(LangProfile profile, int index, int langSize) {
-    String lang = profile.name!;
+    String lang = profile.name;
     if (langList.contains(lang)) {
       final s = langList.toString();
       throw LangDetectException(ErrorCode.duplicateLangError,
@@ -110,7 +110,7 @@ class DetectorFactory {
       int length = word.length;
       if (1 <= length && length <= 3) {
         double prob = 1.0 * count / profile.nWords[length - 1];
-        wordLangProbMap[word]![index] = prob;
+        wordLangProbMap[word][index] = prob;
       }
     });
   }
@@ -120,7 +120,7 @@ class DetectorFactory {
     wordLangProbMap = {};
   }
 
-  Detector create({double? alpha}) {
+  Detector create({double alpha}) {
     Detector detector = _createDetector();
     if (alpha != null) {
       detector.setAlpha(alpha);
